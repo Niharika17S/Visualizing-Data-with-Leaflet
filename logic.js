@@ -1,6 +1,4 @@
-// Store our API endpoint inside queryUrl
-
-
+// Json URL
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
 function markerSize(mag) {
@@ -36,20 +34,17 @@ function createFeatures(earthquakeData) {
                 color: "black",
                 weight: 0.5,
                 fillOpacity: 0.8,
-            // fillColor: "${getColor(feature.properties.mag)}",
-            // strokeColor: "#00FF01",
-            // fillOpacity: 0.6
         })
     }    
   });
 
-  // Sending our earthquakes layer to the createMap function
+  // Sending earthquakes layer to the createMap function
   createMap(earthquakes);
 }
 
 function createMap(earthquakes) {
 
-  // Define streetmap and darkmap layers
+  // Define the tile layers
   var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
@@ -80,7 +75,7 @@ function createMap(earthquakes) {
     accessToken: API_KEY
   });
 
-  // Define a baseMaps object to hold our base layers
+  // Define a baseMaps object to hold base layers
   var baseMaps = {
     "Street Map": streetmap,
     "Dark Map": darkmap,
@@ -89,12 +84,12 @@ function createMap(earthquakes) {
 
   };
 
-  // Create overlay object to hold our overlay layer
+  // Create overlay object to hold overlay layer
   var overlayMaps = {
     Earthquakes: earthquakes
   };
 
-  // Create our map, giving it the streetmap and earthquakes layers to display on load
+  // Create map, giving it the lightmap and earthquakes layers to display on load
   var myMap = L.map("map", {
     center: [
       37.09, -95.71
@@ -116,7 +111,7 @@ function createMap(earthquakes) {
                 grades = [0, 1, 2, 3, 4, 5],
                 labels = [];
 
-    // loop through our density intervals and generate a label with a colored square for each interval
+    // loop through density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
